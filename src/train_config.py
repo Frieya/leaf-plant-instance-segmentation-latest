@@ -6,8 +6,11 @@ import os
 
 import torch
 from utils import mytransforms as my_transforms
+from dotenv import load_dotenv
 
-DATASET_DIR=os.environ.get('DATASET_DIR')
+load_dotenv()
+
+DATASET_DIR=os.getenv('DATASET_DIR')
 
 args = dict(
 
