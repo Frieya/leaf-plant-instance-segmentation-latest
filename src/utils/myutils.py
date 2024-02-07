@@ -463,7 +463,7 @@ class Cluster():
           parts_seed_masked = parts_seed[cls_idx][parts_cls_mask] # (n, )
 
           # set all foreground pixels to be unclustered
-          parts_unclustered = np.ones(parts_cls_mask.sum(), dtype=np.bool) # (n, )
+          parts_unclustered = np.ones(parts_cls_mask.sum(), dtype=bool) # (n, )
         elif self.mode == 'torch':
           part_xym_masked = xym[parts_cls_mask.expand_as(xym)].reshape(2, -1) # (2, n)
  
@@ -516,7 +516,7 @@ class Cluster():
           if part_proposal.sum() > self.parts_area_thres:
             parts_unclustered[part_proposal] = False
             # binary mask for this part
-            part_instance_map = np.zeros((height, width), dtype=np.bool)
+            part_instance_map = np.zeros((height, width), dtype=bool)
             if self.mode == 'np':
               part_instance_map[parts_cls_mask] = part_proposal
 
@@ -530,7 +530,7 @@ class Cluster():
               part_xym = part_xym_masked[np.broadcast_to(part_proposal, part_xym_masked.shape)].reshape(2, -1)
             elif self.mode == 'torch':
               if not isinstance(parts_cls_mask, np.ndarray):
-                parts_cls_mask = parts_cls_mask.cpu().numpy().astype(np.bool)
+                parts_cls_mask = parts_cls_mask.cpu().numpy().astype(bool)
               part_instance_map[parts_cls_mask] = part_proposal.cpu().numpy()
 
                # spatial embeddings of this part
@@ -569,7 +569,7 @@ class Cluster():
           objects_seed_masked = objects_seed[cls_idx][objects_cls_mask] # (n, )
 
           # set all foreground pixels to be unclustered
-          objects_unclustered = np.ones(objects_cls_mask.sum(), dtype=np.bool) # (n, )
+          objects_unclustered = np.ones(objects_cls_mask.sum(), dtype=bool) # (n, )
         elif self.mode == 'torch':
           objects_xym_masked = xym[objects_cls_mask.expand_as(xym)].reshape(2, -1) # (2, n)
 
